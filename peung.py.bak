@@ -1,0 +1,73 @@
+#!/usr/bin/env python
+
+import random
+from pynput.keyboard import Key, KeyCode, Listener
+from time import sleep
+from playsound import playsound
+
+
+MAX_SOUND_FILE = 30 # maximum score for which a recording exists
+QLUMB_MODE = False # toggle qlumbers
+SPECIAL_PLAYERS = ["heddood", "yusuf", "yussra", "mama", "baba"]
+
+def on_release(key):
+  if key in map(KeyCode.from_char,['0','1']):
+    global quit_sig, outcome
+    outcome = int(key.char)
+    quit_sig = True
+
+def set_outcome():
+  global quit_sig
+  quit_sig = False
+  listener = Listener(on_release=on_release)
+  listener.start()
+  while not quit_sig:
+    sleep(0.1)
+  listener.stop()
+
+player = []
+print "Enter a player name."
+player.append(raw_input())
+print "Enter a player name."
+player.append(raw_input())
+
+score = [0,0]
+server = random.choice([0,1])
+serve_counter=0
+deuce = False
+while abs(score[0]-score[1])<2 or max([score[0],score[1]]) < 11:
+
+  for i in range(2):
+    print player[i]+": "+str(score[i])
+  print player[server]+"'s serve."
+  print "Enter 0 if "+player[0]+" scores and 1 if "+player[1]+" scores."
+
+  if max(score) <= MAX_SOUND_FILE:
+    num_prefix = "num" if not QLUMB_MODE else "qlum"
+    playsound(num_prefix+"_"+str(score[0])+".mp3")
+    sleep(0.35)
+    playsound(num_prefix+"_"+str(score[1])+".mp3")
+  sleep(0.65)
+  if player[server] in SPECIAL_PLAYERS:
+    playsound("serve_"+str(player[server])+".mp3")
+  else:
+    playsound("serve_"+str(server)+".mp3")
+
+  set_outcome()
+  score[outcome]+=1
+  if score[0]==10 and score[1]==10:
+    deuce = True
+  if serve_counter == 1 or deuce:
+    server = 1 if server == 0 else 0
+    serve_counter = 0
+  else:
+    serve_counter+=1
+
+for i in range(2):
+  print player[i]+": "+str(score[i])
+winner = 0 if score[0] > score[1] else 1
+if player[winner] in SPECIAL_PLAYERS:
+  playsound("win_"+str(player[winner])+".mp3")
+else:
+  playsound("win_"+str(winner)+".mp3")
+playsound("factorio.mp3")
