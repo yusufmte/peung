@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import random, copy
 from pynput.mouse import Button, Listener
@@ -29,8 +29,8 @@ class Game:
 
   def report(self):
     for i in range(2):
-      print self.player[i]+": "+str(self.score[i])
-    print self.player[self.server]+"'s serve."
+      print(self.player[i]+": "+str(self.score[i]))
+    print(self.player[self.server]+"'s serve.")
 
     if sum(self.score)==0:
       playsound("game_score.mp3")
@@ -73,8 +73,8 @@ class Game:
   def play(self):
     while abs(self.score[0]-self.score[1])<2 or max([self.score[0],self.score[1]]) < GAME_LENGTH:
       self.report()
-      print "Left click if "+self.player[0]+" scores and right click if "+self.player[1]+" scores. Middle click to undo."
-      print ""
+      print("Left click if "+self.player[0]+" scores and right click if "+self.player[1]+" scores. Middle click to undo.")
+      print("")
       self.next()
     
     winner = 0 if self.score[0] > self.score[1] else 1
@@ -101,14 +101,14 @@ def set_outcome():
     sleep(0.1)
   listener.stop()
 
-print "How many games in this match?"
-num_games = int(raw_input())
+print("How many games in this match?")
+num_games = int(input())
 if num_games%2==0: num_games+=1
 player=[]
-print "Enter player 0 name."
-player.append(raw_input())
-print "Enter player 1 name."
-player.append(raw_input())
+print("Enter player 0 name.")
+player.append(input())
+print("Enter player 1 name.")
+player.append(input())
 
 match_score = [0,0]
 
