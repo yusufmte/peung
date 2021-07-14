@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import random, copy
-from pynput.mouse import Button, Listener
+from pynput import mouse
 from time import sleep
 from playsound import playsound
 
@@ -9,8 +9,13 @@ from playsound import playsound
 MAX_SOUND_FILE = 30 # maximum score for which a recording exists
 QLUMB_MODE = False # toggle qlumbers
 SPECIAL_PLAYERS = ["heddood", "yusuf", "yussra", "mama", "baba"]
-OUTCOME_MAPPING = {Button.left:0, Button.right:1, Button.middle:-1}
 GAME_LENGTH = 11 # number of rallies in a game
+
+OUTCOME_MAPPING = {
+  mouse.Button.left:0,
+  mouse.Button.right:1,
+  mouse.Button.middle:-1,
+}
 
 
 def say_num(num):
@@ -86,19 +91,16 @@ class Game:
 
     
 def on_click(x,y,button,pressed):
-  if button in [Button.left, Button.right, Button.middle]:
-    global quit_sig, outcome
-    outcome = OUTCOME_MAPPING[button]
-    quit_sig = True
+  if button in [mouse.Button.left, mouse.Button.right, mouse.Button.middle]:
+    if pressed:
+      global outcome
+      outcome = OUTCOME_MAPPING[button]
+    else:
+      return False # stops the listener thread
 
 def set_outcome():
-  global quit_sig
-  quit_sig = False
-  listener = Listener(on_click=on_click)
-  listener.start()
-  while not quit_sig:
-    sleep(0.1)
-  listener.stop()
+  with mouse.Listener(on_click=on_click) as listener:
+    listener.join()
 
 print("How many games in this match?")
 num_games = int(input())
