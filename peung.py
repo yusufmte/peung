@@ -36,7 +36,6 @@ class Game:
       playsound("game_score.mp3")
 
     if max(self.score) <= MAX_SOUND_FILE:
-      num_prefix = "num" if not QLUMB_MODE else "qlum"
       say_num(self.score[0])
       sleep(0.2)
       say_num(self.score[1])
