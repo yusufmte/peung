@@ -76,9 +76,8 @@ class Game:
 
   def play(self):
     while abs(self.score[0]-self.score[1])<2 or max([self.score[0],self.score[1]]) < GAME_LENGTH:
+      print("Left click if "+self.player[0]+" scores and right click if "+self.player[1]+" scores. Middle click to undo.\n")
       self.report()
-      print("Left click if "+self.player[0]+" scores and right click if "+self.player[1]+" scores. Middle click to undo.")
-      print("")
       self.next()
     
     winner = 0 if self.score[0] > self.score[1] else 1
