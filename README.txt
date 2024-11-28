@@ -1,3 +1,5 @@
+Note: Detecting mouse input does not seem to work on Wayland. Use Xorg.
+
 One issue with this program is that mouse clicks captured by the program are
 still sent to other applications. This results in an annoying right click menu
 that needs to be dodged.
