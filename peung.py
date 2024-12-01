@@ -3,10 +3,10 @@
 import random, copy, pygame
 from pynput import mouse
 from time import sleep
-
+from pathlib import Path
 
 MAX_SOUND_FILE = 30 # maximum score for which a recording exists
-QLUMB_MODE = True # toggle qlumbers
+QLUMB_MODE = False # toggle qlumbers
 SPECIAL_PLAYERS = ["heddood", "yusuf", "yussra", "mama", "baba"]
 GAME_LENGTH = 11 # number of rallies in a game
 
@@ -16,9 +16,11 @@ OUTCOME_MAPPING = {
   mouse.Button.middle:-1,
 }
 
+sound_assets_dir = Path('./assets/') # will become some standard *absolute* path after #5
 
-def play_sound(file):
-  pygame.mixer.music.load(file)
+
+def play_sound(filename):
+  pygame.mixer.music.load(sound_assets_dir/filename)
   pygame.mixer.music.play()
   while pygame.mixer.music.get_busy():
     pygame.time.Clock().tick(10)
