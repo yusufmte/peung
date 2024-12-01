@@ -9,18 +9,26 @@ A peupy solution for now: disable mouse movement.
 Here's how to do this with X:
 
 Do
-  xinput --list
+```sh
+xinput --list
+```
 to determine the ID of the mouse you are using. Let's say it's 10.
 
 Do
-  xinput --list-props 10
+```sh
+xinput --list-props 10
+```
 to list the configurable properties of the mouse.
 Look for the id of something like "coordinate transformation matrix."
 Let's say it's 181.
 
 Do
-  xinput set-prop 10 181 0, 0, 0, 0, 0, 0, 0, 0, 1
+```sh
+xinput set-prop 10 181 0, 0, 0, 0, 0, 0, 0, 0, 1
+```
 to disable mouse movement.
 
 To enable it again, set the matrix back to identity:
-  xinput set-prop 10 181 1, 0, 0, 0, 1, 0, 0, 0, 1
+```sh
+xinput set-prop 10 181 1, 0, 0, 0, 1, 0, 0, 0, 1
+```
