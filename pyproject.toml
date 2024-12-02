@@ -20,6 +20,7 @@ classifiers = [
 dependencies = [
   "pygame",
   "pynput",
+  "platformdirs",
 ]
 
 [project.urls]

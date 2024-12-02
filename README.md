@@ -3,9 +3,10 @@ Note: Detecting mouse input does not seem to work on Wayland. Use Xorg.
 ## Getting sound assets
 
 If you have access, download [the sound assets here](https://drive.google.com/file/d/1Ky-RoYqmEFlRVsw-29jSYjuCZUNRZ-Xt/view?usp=drive_link).
-Extract them into the directory that contains `peung.py`.
+Run peung once to get an error message that informs you of where the application data directory is. 
+Extract the assets into the application data directory.
 
-If you don't have access, you will have to create sound files like this inside the peung.py directory:
+If you don't have access, you will have to create sound files like this in the application data directory.
 ```txt
 assets/serve_0.mp3
 assets/serve_1.mp3

@@ -2,6 +2,7 @@ import random, copy, pygame
 from pynput import mouse
 from time import sleep
 from pathlib import Path
+from platformdirs import user_data_dir
 
 MAX_SOUND_FILE = 30 # maximum score for which a recording exists
 QLUMB_MODE = False # toggle qlumbers
@@ -14,11 +15,17 @@ OUTCOME_MAPPING = {
   mouse.Button.middle:-1,
 }
 
-sound_assets_dir = Path('./assets/') # will become some standard *absolute* path after #5
+sound_assets_dir = Path(user_data_dir("peung")) / "assets"
 
 
 def play_sound(filename):
-  pygame.mixer.music.load(sound_assets_dir/filename)
+  filepath = sound_assets_dir/filename
+  if not filepath.exists():
+    if not sound_assets_dir.is_dir():
+      raise FileNotFoundError(f"Please obtain and extract sounds to {sound_assets_dir}")
+    if not filepath.exists():
+      raise FileNotFoundError(f"Missing sound: {filepath}")
+  pygame.mixer.music.load(filepath)
   pygame.mixer.music.play()
   while pygame.mixer.music.get_busy():
     pygame.time.Clock().tick(10)
