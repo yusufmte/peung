@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import random, copy, pygame
 from pynput import mouse
 from time import sleep
@@ -108,33 +106,37 @@ def set_outcome():
   with mouse.Listener(on_click=on_click) as listener:
     listener.join()
 
-pygame.init()
-pygame.mixer.init()
-print("How many games in this match?")
-num_games = int(input())
-if num_games%2==0: num_games+=1
-player=[]
-print("Enter player 0 name.")
-player.append(input())
-print("Enter player 1 name.")
-player.append(input())
+def main():
+  pygame.init()
+  pygame.mixer.init()
+  print("How many games in this match?")
+  num_games = int(input())
+  if num_games%2==0: num_games+=1
+  player=[]
+  print("Enter player 0 name.")
+  player.append(input())
+  print("Enter player 1 name.")
+  player.append(input())
 
-match_score = [0,0]
+  match_score = [0,0]
 
-while max(match_score) <= num_games/2:
-  game = Game(player)
-  play_sound("match_score.mp3")
-  say_num(match_score[0])
-  sleep(0.2)
-  say_num(match_score[1])
-  sleep(0.65)
-  match_score[game.play()] += 1
+  while max(match_score) <= num_games/2:
+    game = Game(player)
+    play_sound("match_score.mp3")
+    say_num(match_score[0])
+    sleep(0.2)
+    say_num(match_score[1])
+    sleep(0.65)
+    match_score[game.play()] += 1
 
-match_winner = 0 if match_score[0] > match_score[1] else 1
-if player[match_winner] in SPECIAL_PLAYERS:
-  play_sound("win_"+str(player[match_winner])+".mp3")
-else:
-  play_sound("win_"+str(match_winner)+".mp3")
-sleep(0.5)
-play_sound("the_match.mp3")
-play_sound("match_factorio.mp3")
+  match_winner = 0 if match_score[0] > match_score[1] else 1
+  if player[match_winner] in SPECIAL_PLAYERS:
+    play_sound("win_"+str(player[match_winner])+".mp3")
+  else:
+    play_sound("win_"+str(match_winner)+".mp3")
+  sleep(0.5)
+  play_sound("the_match.mp3")
+  play_sound("match_factorio.mp3")
+
+if __name__=="__main__":
+  main()
