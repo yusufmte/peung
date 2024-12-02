@@ -2,3 +2,4 @@ veunv
 venv
 launch-peung.sh
 assets/
+__pycache__/

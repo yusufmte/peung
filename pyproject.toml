@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "peung"
+version = "0.0.1"
+authors = [
+  { name="Yusuf Ebrahim", email="yusufmte@gmail.com" },
+  { name="Ebrahim Ebrahim", email="ebrahim.mt@gmail.com" },
+]
+description = "Ping pong score-keeping tool"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "pygame",
+  "pynput",
+  "platformdirs",
+]
+
+[project.urls]
+Homepage = "https://github.com/yusufmte/peung"
+Issues = "https://github.com/yusufmte/peung/issues"
+
+[project.scripts]
+peung = "peung.peung:main"

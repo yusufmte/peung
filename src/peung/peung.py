@@ -1,9 +1,8 @@
-#!/usr/bin/env python3
-
 import random, copy, pygame
 from pynput import mouse
 from time import sleep
 from pathlib import Path
+from platformdirs import user_data_dir
 
 MAX_SOUND_FILE = 30 # maximum score for which a recording exists
 QLUMB_MODE = False # toggle qlumbers
@@ -16,11 +15,17 @@ OUTCOME_MAPPING = {
   mouse.Button.middle:-1,
 }
 
-sound_assets_dir = Path('./assets/') # will become some standard *absolute* path after #5
+sound_assets_dir = Path(user_data_dir("peung")) / "assets"
 
 
 def play_sound(filename):
-  pygame.mixer.music.load(sound_assets_dir/filename)
+  filepath = sound_assets_dir/filename
+  if not filepath.exists():
+    if not sound_assets_dir.is_dir():
+      raise FileNotFoundError(f"Please obtain and extract sounds to {sound_assets_dir}")
+    if not filepath.exists():
+      raise FileNotFoundError(f"Missing sound: {filepath}")
+  pygame.mixer.music.load(filepath)
   pygame.mixer.music.play()
   while pygame.mixer.music.get_busy():
     pygame.time.Clock().tick(10)
@@ -89,7 +94,7 @@ class Game:
     
     winner = 0 if self.score[0] > self.score[1] else 1
     if self.player[winner] in SPECIAL_PLAYERS:
-      play_sound("win_"+str(player[winner])+".mp3")
+      play_sound("win_"+str(self.player[winner])+".mp3")
     else:
       play_sound("win_"+str(winner)+".mp3")
     play_sound("factorio.mp3")
@@ -108,33 +113,37 @@ def set_outcome():
   with mouse.Listener(on_click=on_click) as listener:
     listener.join()
 
-pygame.init()
-pygame.mixer.init()
-print("How many games in this match?")
-num_games = int(input())
-if num_games%2==0: num_games+=1
-player=[]
-print("Enter player 0 name.")
-player.append(input())
-print("Enter player 1 name.")
-player.append(input())
+def main():
+  pygame.init()
+  pygame.mixer.init()
+  print("How many games in this match?")
+  num_games = int(input())
+  if num_games%2==0: num_games+=1
+  player=[]
+  print("Enter player 0 name.")
+  player.append(input())
+  print("Enter player 1 name.")
+  player.append(input())
 
-match_score = [0,0]
+  match_score = [0,0]
 
-while max(match_score) <= num_games/2:
-  game = Game(player)
-  play_sound("match_score.mp3")
-  say_num(match_score[0])
-  sleep(0.2)
-  say_num(match_score[1])
-  sleep(0.65)
-  match_score[game.play()] += 1
+  while max(match_score) <= num_games/2:
+    game = Game(player)
+    play_sound("match_score.mp3")
+    say_num(match_score[0])
+    sleep(0.2)
+    say_num(match_score[1])
+    sleep(0.65)
+    match_score[game.play()] += 1
 
-match_winner = 0 if match_score[0] > match_score[1] else 1
-if player[match_winner] in SPECIAL_PLAYERS:
-  play_sound("win_"+str(player[match_winner])+".mp3")
-else:
-  play_sound("win_"+str(match_winner)+".mp3")
-sleep(0.5)
-play_sound("the_match.mp3")
-play_sound("match_factorio.mp3")
+  match_winner = 0 if match_score[0] > match_score[1] else 1
+  if player[match_winner] in SPECIAL_PLAYERS:
+    play_sound("win_"+str(player[match_winner])+".mp3")
+  else:
+    play_sound("win_"+str(match_winner)+".mp3")
+  sleep(0.5)
+  play_sound("the_match.mp3")
+  play_sound("match_factorio.mp3")
+
+if __name__=="__main__":
+  main()
