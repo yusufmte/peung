@@ -94,7 +94,7 @@ class Game:
     
     winner = 0 if self.score[0] > self.score[1] else 1
     if self.player[winner] in SPECIAL_PLAYERS:
-      play_sound("win_"+str(player[winner])+".mp3")
+      play_sound("win_"+str(self.player[winner])+".mp3")
     else:
       play_sound("win_"+str(winner)+".mp3")
     play_sound("factorio.mp3")
