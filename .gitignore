@@ -3,3 +3,4 @@ venv
 launch-peung.sh
 assets/
 __pycache__/
+src/peung/pygame
