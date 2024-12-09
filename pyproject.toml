@@ -21,6 +21,7 @@ dependencies = [
   "pygame",
   "pynput",
   "platformdirs",
+  "gtts",
 ]
 
 [project.urls]

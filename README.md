@@ -1,36 +1,23 @@
 Note: Detecting mouse input does not seem to work on Wayland. Use Xorg.
 
+## TTS and sound assets
+
+When Peung runs, it will make the sound asset directory (if it does not exist) and tell you where this is.
+If a sound file exists, peung will use it. If it does not exist, a text-to-speech file will be made for the sound.
+The TTS audio file can then be replaced with custom audio if desired.
+
 ## Getting sound assets
 
 If you have access, download [the sound assets here](https://drive.google.com/file/d/1Ky-RoYqmEFlRVsw-29jSYjuCZUNRZ-Xt/view?usp=drive_link).
-Run peung once to get an error message that informs you of where the application data directory is. 
 Extract the assets into the application data directory.
 
-If you don't have access, you will have to create sound files like this in the application data directory.
-```txt
-assets/serve_0.mp3
-assets/serve_1.mp3
-assets/win_0.mp3
-assets/win_1.mp3
-assets/serve_[PLAYERNAME].mp3
-assets/win_[PLAYERNAME].mp3
-assets/num_[#].mp3
-assets/game_score.mp3
-assets/match_score.mp3
-assets/the_match.mp3
-assets/factorio.mp3
-assets/match_factorio.mp3
-assets/deuce.mp3
-assets/peuped.mp3
-assets/you_peuped.mp3
-```
-where
-- `[PLAYERNAME]` can be replaced by special player names with their own unique sounds; these are optional
-- `[#]` should be replaced by integers starting from 1, so `num_1.mp3`, `num_2.mp3`, etc. to announce scores.
+## Optional chimes
+
+Three "chimes" currently are optional, and will play only if the corresponding file already exists in the assets directory - "undo_chime.mp3", "victory_chime.mp3", and "grand_victory_chime.mp3".
 
 ## Disabling mouse movement
 
-One issue with this program is that mouse clicks captured by the program are
+One issue with peung is that mouse clicks captured by the program are
 still sent to other applications. This results in an annoying right click menu
 that needs to be dodged.
 
