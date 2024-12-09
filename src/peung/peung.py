@@ -21,9 +21,8 @@ def play_sound(phrase,skip_if_missing=False):
   if not filepath.exists():
     if skip_if_missing:
       return
-    else:
-      tts = gTTS(phrase)
-      tts.save(sound_assets_dir/to_filename(phrase))
+    tts = gTTS(phrase)
+    tts.save(sound_assets_dir/to_filename(phrase))
   pygame.mixer.music.load(filepath)
   pygame.mixer.music.play()
   while pygame.mixer.music.get_busy():
@@ -31,7 +30,7 @@ def play_sound(phrase,skip_if_missing=False):
 
 def say_num(num):
   num_prefix = "" if not QLUMB_MODE else "q"
-  play_sound(num_prefix+str(num))
+  play_sound(f"{num_prefix}{num}")
 
 def to_filename(phrase):
   return phrase.replace(" ", "_")+".mp3"
@@ -47,17 +46,15 @@ class Game:
 
   def report(self):
     for i in range(2):
-      print(self.player[i]+": "+str(self.score[i]))
-    print(self.player[self.server]+" serve")
+      print(f"{self.player[i]}: {self.score[i]}")
+    print(f"{self.player[self.server]} serve")
 
     if sum(self.score)==0:
       play_sound("game score")
 
     say_num(self.score[0])
-    #sleep(0.2)
     say_num(self.score[1])
-    #sleep(0.65)
-    play_sound(str(self.player[self.server])+" serve")
+    play_sound(f"{self.player[self.server]} serve")
 
   def next(self):
     set_outcome()
@@ -80,18 +77,18 @@ class Game:
       play_sound("undo")
     else:
       play_sound("undo")
-      play_sound("undo chime",True)
+      play_sound("undo chime",skip_if_missing=True)
       self.__dict__ = self.previous.__dict__
 
   def play(self):
     while abs(self.score[0]-self.score[1])<2 or max([self.score[0],self.score[1]]) < GAME_LENGTH:
-      print("Left click if "+self.player[0]+" scores and right click if "+self.player[1]+" scores. Middle click to undo.\n")
+      print(f"Left click if {self.player[0]} scores and right click if {self.player[1]} scores. Middle click to undo.\n")
       self.report()
       self.next()
     
     winner = 0 if self.score[0] > self.score[1] else 1
-    play_sound(str(self.player[winner])+" win")
-    play_sound("victory chime",True)
+    play_sound(f"{self.player[winner]} win")
+    play_sound("victory chime",skip_if_missing=True)
     return winner
 
     
@@ -130,16 +127,13 @@ def main():
     game = Game(player)
     play_sound("match score")
     say_num(match_score[0])
-    #sleep(0.2)
     say_num(match_score[1])
-    #sleep(0.65)
     match_score[game.play()] += 1
 
   match_winner = 0 if match_score[0] > match_score[1] else 1
-  play_sound(str(player[match_winner])+" win")
-  #sleep(0.5)
+  play_sound(f"{player[match_winner]} win")
   play_sound("the match that is")
-  play_sound("grand victory chime",True)
+  play_sound("grand victory chime",skip_if_missing=True)
 
 if __name__=="__main__":
   main()
