@@ -23,7 +23,7 @@ def play_sound(phrase,skip_if_missing=False):
       return
     else:
       tts = gTTS(phrase)
-      tts.save(str(sound_assets_dir)+"/"+to_filename(phrase))
+      tts.save(sound_assets_dir/to_filename(phrase))
   pygame.mixer.music.load(filepath)
   pygame.mixer.music.play()
   while pygame.mixer.music.get_busy():
